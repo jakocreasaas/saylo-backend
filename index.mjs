@@ -56,29 +56,72 @@ Each hook must:
 
 2. Generate exactly 2 full script options.
 
-Each script should be optimized for short-form video, but the final length can vary depending on the idea.
+Each script must:
+- be for a 45–75 second spoken video
+- feel complete, developed, and substantial
+- not feel rushed, underdeveloped, or overly compressed
+- include enough content to feel worth watching
 
-Length guidance:
-- default: 35–60 seconds spoken
-- if the idea is simple and strong, prefer a shorter script
-- if the idea needs more clarity or development, extend naturally up to 75 seconds
-- never make it longer unless the extra length clearly improves the communication
-
-Do not force all scripts to have the same length.
-Prefer the shortest version that still feels clear, sharp, and complete.
-
-Use this structure as a guiding framework, not as a rigid template:
+Use this structure as a strong guiding framework:
 1. Hook
 2. Curiosity reinforcement
 3. Context
 4. Core idea
-5. Example
+5. Example, detail, or concrete angle
 6. Resolution
 7. Natural ending
 
-If the idea works better with a simpler or tighter structure, adapt naturally.
+If the idea benefits from a slightly different flow, adapt naturally.
+But the script must still feel structured, developed, and satisfying.
 
-3. For each script, assign:
+3. Add concrete substance when it improves the script.
+
+Whenever relevant, strengthen the script with:
+- concrete details
+- specific observations
+- approximate numbers
+- useful comparisons
+- vivid facts
+- memorable specifics
+
+Examples:
+- if mentioning an animal, include a concrete fact like approximate size, weight, behavior, or capability
+- if mentioning productivity, habits, content, or psychology, include a specific mechanism, pattern, or real-world angle
+- if mentioning a problem, make it tangible rather than abstract
+
+IMPORTANT:
+- Do NOT invent fake precision
+- Do NOT make up niche statistics
+- Only include details that are broadly known, reasonably safe, or naturally implied by the topic
+- If a concrete detail is not reliable, prefer a vivid explanation over a fabricated number
+- The goal is to make the script richer, more interesting, and more useful
+
+4. Increase insight and originality.
+
+Each script must include at least one of the following:
+- a non-obvious insight
+- a surprising angle
+- a counterintuitive idea
+- a reframing of something common
+
+Avoid generic advice like:
+- "be consistent"
+- "be authentic"
+- "work hard"
+- "structure matters"
+
+Instead:
+- say something that makes the viewer stop and think
+- challenge an assumption
+- reveal something people don’t usually notice
+- make the idea feel fresh and specific
+
+The goal is not just clarity.
+
+The goal is:
+"This is interesting. I haven’t heard it like this."
+
+5. For each script, assign:
 - exactly 1 short label describing the style of the script
 - exactly 1 short best_for phrase describing when to use it
 
@@ -134,6 +177,8 @@ STYLE RULES:
 - easy to say out loud
 - label must be very short (2–4 words max)
 - best_for must be a short natural phrase, not a single keyword
+- do not make both scripts feel like the same exact template
+- make the scripts feel rich, specific, and worth listening to
 
 FORMATTING RULES:
 - Use natural paragraph breaks.
@@ -188,32 +233,32 @@ function parseSayloOutput(text) {
 
     parsed.hooks.forEach((hook, index) => {
       if (typeof hook !== "string" || !hook.trim()) {
-        throw new Error(`hook ${index + 1} is invalid`);
+        throw new Error(\`hook \${index + 1} is invalid\`);
       }
     });
 
     parsed.scripts.forEach((script, index) => {
       if (!script || typeof script !== "object") {
-        throw new Error(`script ${index + 1} is invalid`);
+        throw new Error(\`script \${index + 1} is invalid\`);
       }
 
       if (typeof script.text !== "string" || !script.text.trim()) {
-        throw new Error(`script ${index + 1} text is invalid`);
+        throw new Error(\`script \${index + 1} text is invalid\`);
       }
 
       if (typeof script.label !== "string" || !script.label.trim()) {
-        throw new Error(`script ${index + 1} label is invalid`);
+        throw new Error(\`script \${index + 1} label is invalid\`);
       }
 
       if (typeof script.best_for !== "string" || !script.best_for.trim()) {
-        throw new Error(`script ${index + 1} best_for is invalid`);
+        throw new Error(\`script \${index + 1} best_for is invalid\`);
       }
     });
 
     return parsed;
   } catch (e) {
     console.error("PARSE ERROR:", text);
-    throw new Error(`Failed to parse model output: ${e.message}`);
+    throw new Error(\`Failed to parse model output: \${e.message}\`);
   }
 }
 
@@ -231,7 +276,7 @@ app.post("/process", upload.single("file"), async (req, res) => {
 
     filePath = req.file.path;
 
-    const fixedFilePath = `${filePath}.m4a`;
+    const fixedFilePath = \`\${filePath}.m4a\`;
     fs.renameSync(filePath, fixedFilePath);
 
     const transcription = await openai.audio.transcriptions.create({
@@ -262,7 +307,7 @@ app.post("/process", upload.single("file"), async (req, res) => {
     });
   } finally {
     if (filePath) {
-      const fixedFilePath = `${filePath}.m4a`;
+      const fixedFilePath = \`\${filePath}.m4a\`;
 
       if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
       if (fs.existsSync(fixedFilePath)) fs.unlinkSync(fixedFilePath);
@@ -273,5 +318,5 @@ app.post("/process", upload.single("file"), async (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(`Servidor en puerto ${PORT}`);
+  console.log(\`Servidor en puerto \${PORT}\`);
 });
