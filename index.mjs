@@ -79,22 +79,49 @@ The label must match ONE of these concepts:
 - visual
 
 The best_for must match ONE of these concepts:
-- attention
-- explanation
-- emotional connection
-- personal tone
-- memorability
+- grabbing attention
+- explaining an idea
+- connecting emotionally
+- a personal tone
+- being memorable
 
 LANGUAGE:
 - Match the input language exactly.
 - The hooks, scripts, label, and best_for must all be in the same language as the input.
+
+LANGUAGE RULES FOR label AND best_for:
+- They must be written in the same language as the script.
+- label must be very short, natural, and polished.
+- best_for must be a short natural phrase, not a single keyword.
+- best_for should read naturally after a separator like "·".
+
+Examples in English:
+- "Direct"
+- "More reflective"
+- "For grabbing attention"
+- "For explaining an idea"
+
+Examples in Spanish:
+- "Directo"
+- "Más reflexivo"
+- "Para captar atención"
+- "Para explicar una idea"
+
+Do NOT return single keywords like:
+- "attention"
+- "explanation"
+- "memorability"
+- "emotional connection"
+- "conexión emocional"
+
+Return natural short phrases instead.
 
 STYLE RULES:
 - short sentences
 - natural spoken tone
 - easy to say out loud
 - label must be very short (2–4 words max)
-- best_for must be short and natural
+- best_for must be a short natural phrase, not a single keyword
 
 IMPORTANT:
 Return ONLY valid JSON.
