@@ -180,6 +180,9 @@ The best_for must match ONE of these concepts:
 LANGUAGE:
 - Match the input language exactly.
 - The hooks, scripts, label, and best_for must all be in the same language as the input.
+- Never mix languages inside the output.
+- If the input is in English, every field must be in English.
+- If the input is in Spanish, every field must be in Spanish.
 
 LANGUAGE RULES FOR label AND best_for:
 - They must be written in the same language as the script.
@@ -187,17 +190,21 @@ LANGUAGE RULES FOR label AND best_for:
 - best_for must be a short natural phrase, not a single keyword.
 - best_for should read naturally after a separator like "·".
 
-Examples in English:
+If the script is in English, valid examples include:
 - "Direct"
 - "More reflective"
 - "For grabbing attention"
 - "For explaining an idea"
 
-Examples in Spanish:
+If the script is in Spanish, valid examples include:
 - "Directo"
 - "Mas reflexivo"
 - "Para captar atencion"
 - "Para explicar una idea"
+
+IMPORTANT:
+- Do not output Spanish labels or best_for phrases for English scripts.
+- Do not output English labels or best_for phrases for Spanish scripts.
 
 Do NOT return single keywords like:
 - "attention"
