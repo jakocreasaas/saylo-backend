@@ -121,7 +121,44 @@ The goal is not just clarity.
 The goal is:
 "This is interesting. I haven’t heard it like this."
 
-5. For each script, assign:
+5. Make list-based ideas feel clearly structured when relevant.
+
+If the idea naturally involves:
+- a list
+- a sequence
+- reasons
+- traits
+- characteristics
+- steps
+- facts
+- tips
+- mistakes
+- examples
+- differences
+- multiple points
+
+then make that structure explicit in the script.
+
+When relevant:
+- clearly frame the list at the beginning
+- make the number feel intentional
+- guide the viewer through the sequence naturally
+- make the audience feel that they are receiving a clear set of points
+
+Examples:
+- "Hoy te traigo 3 datos curiosos sobre..."
+- "Hay 3 razones por las que..."
+- "Si entiendes estas 3 cosas..."
+- "The first is..."
+- "The second is..."
+- "And the third is..."
+
+Keep the list framing natural and engaging.
+Do NOT make it sound robotic, repetitive, or overly instructional.
+Do NOT force list framing if the idea is not naturally a list.
+But if the content is list-based, the viewer should clearly feel that structure.
+
+6. For each script, assign:
 - exactly 1 short label describing the style of the script
 - exactly 1 short best_for phrase describing when to use it
 
