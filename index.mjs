@@ -26,7 +26,7 @@ You are not summarizing.
 You are extracting the strongest idea and upgrading it into better communication.
 
 CONTEXT ABOUT THE INPUT:
-The user provides a voice transcription (30–90 seconds).
+The user provides a voice transcription (30-90 seconds).
 It will be messy, unstructured, and include filler words, repetition, and unfinished thoughts.
 
 This is normal.
@@ -57,7 +57,7 @@ Each hook must:
 2. Generate exactly 2 full script options.
 
 Each script must:
-- be for a 45–75 second spoken video
+- be for a 45-75 second spoken video
 - feel complete, developed, and substantial
 - not feel rushed, underdeveloped, or overly compressed
 - include enough content to feel worth watching
@@ -113,13 +113,13 @@ Avoid generic advice like:
 Instead:
 - say something that makes the viewer stop and think
 - challenge an assumption
-- reveal something people don’t usually notice
+- reveal something people do not usually notice
 - make the idea feel fresh and specific
 
 The goal is not just clarity.
 
 The goal is:
-"This is interesting. I haven’t heard it like this."
+"This is interesting. I have not heard it like this."
 
 5. Make list-based ideas feel clearly structured when relevant.
 
@@ -195,8 +195,8 @@ Examples in English:
 
 Examples in Spanish:
 - "Directo"
-- "Más reflexivo"
-- "Para captar atención"
+- "Mas reflexivo"
+- "Para captar atencion"
 - "Para explicar una idea"
 
 Do NOT return single keywords like:
@@ -204,7 +204,7 @@ Do NOT return single keywords like:
 - "explanation"
 - "memorability"
 - "emotional connection"
-- "conexión emocional"
+- "conexion emocional"
 
 Return natural short phrases instead.
 
@@ -212,7 +212,7 @@ STYLE RULES:
 - short sentences
 - natural spoken tone
 - easy to say out loud
-- label must be very short (2–4 words max)
+- label must be very short (2-4 words max)
 - best_for must be a short natural phrase, not a single keyword
 - do not make both scripts feel like the same exact template
 - make the scripts feel rich, specific, and worth listening to
@@ -270,32 +270,32 @@ function parseSayloOutput(text) {
 
     parsed.hooks.forEach((hook, index) => {
       if (typeof hook !== "string" || !hook.trim()) {
-        throw new Error(\`hook \${index + 1} is invalid\`);
+        throw new Error("hook " + (index + 1) + " is invalid");
       }
     });
 
     parsed.scripts.forEach((script, index) => {
       if (!script || typeof script !== "object") {
-        throw new Error(\`script \${index + 1} is invalid\`);
+        throw new Error("script " + (index + 1) + " is invalid");
       }
 
       if (typeof script.text !== "string" || !script.text.trim()) {
-        throw new Error(\`script \${index + 1} text is invalid\`);
+        throw new Error("script " + (index + 1) + " text is invalid");
       }
 
       if (typeof script.label !== "string" || !script.label.trim()) {
-        throw new Error(\`script \${index + 1} label is invalid\`);
+        throw new Error("script " + (index + 1) + " label is invalid");
       }
 
       if (typeof script.best_for !== "string" || !script.best_for.trim()) {
-        throw new Error(\`script \${index + 1} best_for is invalid\`);
+        throw new Error("script " + (index + 1) + " best_for is invalid");
       }
     });
 
     return parsed;
   } catch (e) {
     console.error("PARSE ERROR:", text);
-    throw new Error(\`Failed to parse model output: \${e.message}\`);
+    throw new Error("Failed to parse model output: " + e.message);
   }
 }
 
@@ -313,7 +313,7 @@ app.post("/process", upload.single("file"), async (req, res) => {
 
     filePath = req.file.path;
 
-    const fixedFilePath = \`\${filePath}.m4a\`;
+    const fixedFilePath = filePath + ".m4a";
     fs.renameSync(filePath, fixedFilePath);
 
     const transcription = await openai.audio.transcriptions.create({
@@ -344,7 +344,7 @@ app.post("/process", upload.single("file"), async (req, res) => {
     });
   } finally {
     if (filePath) {
-      const fixedFilePath = \`\${filePath}.m4a\`;
+      const fixedFilePath = filePath + ".m4a";
 
       if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
       if (fs.existsSync(fixedFilePath)) fs.unlinkSync(fixedFilePath);
@@ -355,5 +355,5 @@ app.post("/process", upload.single("file"), async (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(\`Servidor en puerto \${PORT}\`);
+  console.log("Servidor en puerto " + PORT);
 });
