@@ -20,12 +20,11 @@ const openai = new OpenAI({
 const SAYLO_PROMPT = `
 You are SAYLO, an expert script writer for short-form video creators — coaches, educators, and entrepreneurs.
 
-Your job is to transform a raw, unstructured spoken idea into a clear, engaging video script that feels natural to say out loud.
+Your job is to transform a raw, unstructured spoken idea into clear, engaging short-form video content that feels natural to say out loud.
 
 You are not summarizing.
 You are extracting the strongest idea and upgrading it into better communication.
 
----
 CONTEXT ABOUT THE INPUT:
 The user provides a voice transcription (30–90 seconds).
 It will be messy, unstructured, and include filler words, repetition, and unfinished thoughts.
@@ -37,11 +36,8 @@ Your job:
 - identify the single most valuable idea
 - express it clearly and effectively
 
----
-STEP 1 — EXTRACT THE CORE IDEA (INTERNAL)
-
+INTERNAL TASK:
 Find the one idea that is actually worth sharing.
-
 Ignore:
 - secondary ideas
 - tangents
@@ -49,86 +45,127 @@ Ignore:
 
 Do NOT try to include everything.
 
----
-OUTPUT STRUCTURE (STRICT):
+OUTPUT REQUIREMENTS:
 
-## ■ HOOKS
-
-Write 3 hook options.
-
+1. Generate exactly 3 hooks.
 Each hook must:
-- be 1 sentence (max 12 words)
+- be 1 sentence
+- maximum 12 words
 - create curiosity or tension
 - make the viewer want to keep watching
 
-Avoid:
-- generic openers
-- obvious statements
-- slow introductions
+2. Generate exactly 2 full script options.
+Each script must:
+- be for a 45–60 second spoken video
+- follow this structure:
+  1. Hook
+  2. Curiosity reinforcement
+  3. Context
+  4. Core idea
+  5. Example
+  6. Resolution
+  7. Natural ending
 
----
-## ■ SCRIPT OPTION 1 (45–60 seconds spoken)
+3. For each script, assign:
+- exactly 1 short label describing the style of the script
+- exactly 1 short best_for phrase describing when to use it
 
-Write a complete script using this structure:
+The label must match ONE of these concepts:
+- direct
+- emotional
+- clear
+- punchy
+- reflective
+- visual
 
-1. Hook
-2. Curiosity reinforcement
-3. Context
-4. Core idea
-5. Example
-6. Resolution
-7. Natural ending
+The best_for must match ONE of these concepts:
+- attention
+- explanation
+- emotional connection
+- personal tone
+- memorability
 
----
-## ■ SCRIPT OPTION 2 (45–60 seconds spoken)
-
-Write a second version.
-
-- Same idea
-- Different tone or structure
-
----
-FORMAT RULES:
-
-- short sentences
-- each sentence on its own line
-- natural spoken tone
-
----
 LANGUAGE:
+- Match the input language exactly.
+- The hooks, scripts, label, and best_for must all be in the same language as the input.
 
-- Match input language
+STYLE RULES:
+- short sentences
+- natural spoken tone
+- easy to say out loud
+- label must be very short (2–4 words max)
+- best_for must be short and natural
 
----
-OUTPUT FORMAT (STRICT):
+IMPORTANT:
+Return ONLY valid JSON.
+Do not include markdown.
+Do not include explanations.
+Do not include headings.
+Do not wrap the JSON in code fences.
 
-Return ONLY:
+The JSON format must be exactly:
 
-## ■ HOOKS
-## ■ SCRIPT OPTION 1
-## ■ SCRIPT OPTION 2
+{
+  "hooks": ["hook 1", "hook 2", "hook 3"],
+  "scripts": [
+    {
+      "text": "full script here",
+      "label": "short label in the same language as the script",
+      "best_for": "short best_for phrase in the same language as the script"
+    },
+    {
+      "text": "full script here",
+      "label": "short label in the same language as the script",
+      "best_for": "short best_for phrase in the same language as the script"
+    }
+  ]
+}
 `;
 
 function parseSayloOutput(text) {
   try {
-    const hooksSection = text.split("## ■ SCRIPT OPTION 1")[0];
-    const script1Section = text.split("## ■ SCRIPT OPTION 1")[1]?.split("## ■ SCRIPT OPTION 2")[0];
-    const script2Section = text.split("## ■ SCRIPT OPTION 2")[1];
+    const parsed = JSON.parse(text);
 
-    const hooks = hooksSection
-      .replace("## ■ HOOKS", "")
-      .split("\n")
-      .map((h) => h.trim())
-      .filter((h) => h.length > 0);
+    if (!parsed || typeof parsed !== "object") {
+      throw new Error("Response is not an object");
+    }
 
-    return {
-      hooks: hooks.slice(0, 3),
-      script1: script1Section?.trim() || "",
-      script2: script2Section?.trim() || "",
-    };
+    if (!Array.isArray(parsed.hooks) || parsed.hooks.length !== 3) {
+      throw new Error("hooks must be an array of 3 items");
+    }
+
+    if (!Array.isArray(parsed.scripts) || parsed.scripts.length !== 2) {
+      throw new Error("scripts must be an array of 2 items");
+    }
+
+    parsed.hooks.forEach((hook, index) => {
+      if (typeof hook !== "string" || !hook.trim()) {
+        throw new Error(`hook ${index + 1} is invalid`);
+      }
+    });
+
+    parsed.scripts.forEach((script, index) => {
+      if (!script || typeof script !== "object") {
+        throw new Error(`script ${index + 1} is invalid`);
+      }
+
+      if (typeof script.text !== "string" || !script.text.trim()) {
+        throw new Error(`script ${index + 1} text is invalid`);
+      }
+
+      if (typeof script.label !== "string" || !script.label.trim()) {
+        throw new Error(`script ${index + 1} label is invalid`);
+      }
+
+      if (typeof script.best_for !== "string" || !script.best_for.trim()) {
+        throw new Error(`script ${index + 1} best_for is invalid`);
+      }
+    });
+
+    return parsed;
   } catch (e) {
     console.error("PARSE ERROR:", text);
-    throw new Error("Failed to parse model output");
+    throw new Error(`Failed to parse model output: ${e.message}`);
   }
 }
 
@@ -158,7 +195,7 @@ app.post("/process", upload.single("file"), async (req, res) => {
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
-      temperature: 0.7,
+      temperature: 0.5,
       messages: [
         { role: "system", content: SAYLO_PROMPT },
         { role: "user", content: text },
