@@ -123,6 +123,15 @@ STYLE RULES:
 - label must be very short (2–4 words max)
 - best_for must be a short natural phrase, not a single keyword
 
+FORMATTING RULES:
+- Use natural paragraph breaks.
+- Separate ideas with line breaks.
+- Keep the hook as its own paragraph.
+- Do NOT return one single block of text.
+- Avoid excessive empty lines (maximum one empty line between paragraphs).
+- If there are lists, sequences, or numbered ideas, separate each idea clearly.
+- The script must be visually readable without additional formatting in the app.
+
 IMPORTANT:
 Return ONLY valid JSON.
 Do not include markdown.
