@@ -55,16 +55,28 @@ Each hook must:
 - make the viewer want to keep watching
 
 2. Generate exactly 2 full script options.
-Each script must:
-- be for a 45–60 second spoken video
-- follow this structure:
-  1. Hook
-  2. Curiosity reinforcement
-  3. Context
-  4. Core idea
-  5. Example
-  6. Resolution
-  7. Natural ending
+
+Each script should be optimized for short-form video, but the final length can vary depending on the idea.
+
+Length guidance:
+- default: 35–60 seconds spoken
+- if the idea is simple and strong, prefer a shorter script
+- if the idea needs more clarity or development, extend naturally up to 75 seconds
+- never make it longer unless the extra length clearly improves the communication
+
+Do not force all scripts to have the same length.
+Prefer the shortest version that still feels clear, sharp, and complete.
+
+Use this structure as a guiding framework, not as a rigid template:
+1. Hook
+2. Curiosity reinforcement
+3. Context
+4. Core idea
+5. Example
+6. Resolution
+7. Natural ending
+
+If the idea works better with a simpler or tighter structure, adapt naturally.
 
 3. For each script, assign:
 - exactly 1 short label describing the style of the script
